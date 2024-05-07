@@ -6,12 +6,14 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 const PomodoroOptions = {
     '25/5': {
-        work: 3, // in seconds
-        rest: 5
+        /* work: 3, // in seconds
+        rest: 5 */
+        initWork: 25 * 60,
+        initRest: 5 * 60
     },
     '50/10': {
-        work: 50 * 60,
-        rest: 10 * 60
+        initWork: 50 * 60,
+        initRest: 10 * 60
     }
 }
 
@@ -27,18 +29,28 @@ const formatTime = (time: number, setDisplay: Dispatch<SetStateAction<string>>) 
 
 
 const Pomodoro = () => {
-    /* Options */
+    /* Options and modes */
     const [option, setOption] = useState<PomodoroOptionsType>('25/5');
-    const [work, setWork] = useState<number>(PomodoroOptions[option].work);
-    const [rest, setRest] = useState<number>(PomodoroOptions[option].rest);
+    const [work, setWork] = useState<number>(PomodoroOptions[option].initWork);
+    const [rest, setRest] = useState<number>(PomodoroOptions[option].initRest);
     const [mode, setMode] = useState<ModeType>('work');
-    const handleOption = (newOption: PomodoroOptionsType) => {
+    /* const handleOption = (newOption: PomodoroOptionsType) => {
+        if (mode === 'work') setWork(PomodoroOptions[newOption].initWork);
+        if (mode === 'rest') setRest(PomodoroOptions[newOption].initRest);
         setOption(newOption);
-        setWork(PomodoroOptions[newOption].work);
-        setRest(PomodoroOptions[newOption].rest);
-        setMode('work'); // siempre que se pulsa el boton del modo, empieza un periodo de trabajo
     }
-    /* End of options */
+    const handleMode = (newMode: ModeType) => {
+        if (newMode === 'work') setWork(PomodoroOptions[option].initWork);
+        if (newMode === 'rest') setRest(PomodoroOptions[option].initRest);
+        setMode(newMode);
+    } */
+    const handleOptionMode = (newOption: PomodoroOptionsType, newMode: ModeType) => {
+        setOption(newOption);
+        setMode(newMode);
+        setWork(PomodoroOptions[newOption].initWork);
+        setRest(PomodoroOptions[newOption].initRest);
+    }
+    /* End of options and modes */
 
     /* Playing or not playing time */
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -51,15 +63,13 @@ const Pomodoro = () => {
             if (mode === 'work') {
                 setWork(work => work - 1);
                 if (work <= 0) {
-                    setMode('rest');
-                    setRest(PomodoroOptions[option].rest);
+                    handleOptionMode(option, 'rest');
                     formatTime(rest, setDisplay); // para que se actualice el display a los minutos antes de empezar la cuenta atras
                 }
             } else if (mode === 'rest') {
                 setRest(rest => rest - 1);
                 if (rest <= 0) {
-                    setMode('work');
-                    setWork(PomodoroOptions[option].work);
+                    handleOptionMode(option, 'work');
                     formatTime(work, setDisplay);
                 }
             }
@@ -85,18 +95,18 @@ const Pomodoro = () => {
         "gap-8 p-8",
         "flex flex-col items-center justify-center"
         )}>
-            <div id="options" className="flex gap-4"> {/* TODO: Deixar aquest */}
-                <Button variant={'secondary'} className="hover:bg-slate-200">Work</Button>
-                <Button variant={'default'}>Break</Button>
+            <div className="flex gap-4"> {/* TODO: Passar al header */}
+                <Button onClick={() => handleOptionMode("25/5", mode)} variant={'default'}>25/5</Button>
+                <Button onClick={() => handleOptionMode("50/10", mode)} variant={'secondary'} className="hover:bg-slate-200">50/10</Button>
             </div>
-            <div className="flex gap-4"> {/* TODO: Eliminar aquest tipus d'opcions */}
-                <Button onClick={() => handleOption("25/5")} variant={'default'}>25/5</Button>
-                <Button onClick={() => handleOption("50/10")} variant={'secondary'} className="hover:bg-slate-200">50/10</Button>
+            <div id="options" className="flex gap-4">
+                <Button onClick={() => handleOptionMode(option, "work")} variant={'secondary'} className="hover:bg-slate-200">Work</Button>
+                <Button onClick={() => handleOptionMode(option, "rest")} variant={'default'}>Break</Button>
             </div>
             <span className="text-3xl font-bold">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
             <span className="text-8xl font-bold">{display}</span>
             <div id="start-stop-buttons" className="flex gap-2">
-                {/* TODO: hacer mis botones con mis estilos */}
+                {/* TODO: Donar estils als botons */}
                 {isPlaying ? (
                     <Button onClick={handleIsPlaying} variant={'destructive'}>Stop</Button>
                 ) : (
