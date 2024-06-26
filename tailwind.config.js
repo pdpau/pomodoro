@@ -19,6 +19,12 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        teko: ["Teko", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
+        marker: ["Permanent Marker", "cursive"],
+        schoolbell: ["Schoolbell", "cursive"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
