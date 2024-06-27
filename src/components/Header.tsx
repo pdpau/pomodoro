@@ -1,13 +1,11 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogOverlay, DialogContent } from '@/components/ui/dialog';
 
 import { GiTomato } from "react-icons/gi";
 import { RiSettings5Fill } from "react-icons/ri";
 import { IoStatsChart } from "react-icons/io5";
-import { MdOutlineTimer } from "react-icons/md";
 
 const Header = () => {
     const [isConfigOpen, setIsConfigOpen] = useState(false);
@@ -84,7 +82,7 @@ const Header = () => {
                                         <label htmlFor="pomodoro" className="text-[10px] text-black font-playfair">POMODORO</label>
                                         <input type="number" id="pomodoro" 
                                             value={pomodoroTimerValue} min={0} max={60} onChange={handlePomodoroTimerValue} 
-                                            className="w-20 h-8 p-1 rounded-sm bg-slate-200" 
+                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
                                         />
                                     </div>
                                     {/* Short Break time */}
@@ -92,7 +90,7 @@ const Header = () => {
                                         <label htmlFor="short-break" className="text-[10px] text-black font-playfair">SHORT BREAK</label>
                                         <input type="number" id="short-break" 
                                             value={shortBreakTimerValue} min={0} max={60} onChange={handleShortBreakTimerValue}
-                                            className="w-20 h-8 p-1 rounded-sm bg-slate-200" 
+                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
                                         />
                                     </div>
                                     {/* Long Break time */}
@@ -100,22 +98,47 @@ const Header = () => {
                                         <label htmlFor="long-break" className="text-[10px] text-black font-playfair">LONG BREAK</label>
                                         <input type="number" id="long-break" 
                                             value={longBreakTimerValue} min={0} max={60} onChange={handleLongBreakTimerValue}
-                                            className="w-20 h-8 p-1 rounded-sm bg-slate-200" 
+                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
+                                            placeholder="yet to implement"
                                         />
                                     </div>
                                 </div>
                                 {/* Quick buttons */}
-                                {/* TODO: Canviar els estils de tots els botons (fer-ne uns per dins de config i uns altres per la pagina prncipal) */}
+                                {/* TODO: Escollir quina de les dues transicions dels botons */}
                                 <div className="flex justify-evenly mt-4">
-                                    <Button variant={'default'} onClick={handleQuickButtonTimerValue(25, 5, 0)}>25/5</Button>
-                                    <Button variant={'secondary'} onClick={handleQuickButtonTimerValue(50, 10, 0)}>50/10</Button>
+                                    <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
+                                        "text-black bg-my-red-400",
+                                        "transition duration-300",
+                                        "hover:bg-slate-400 hover:scale-105")} 
+                                        onClick={handleQuickButtonTimerValue(25, 5, 0)}
+                                    >25/5</button>
+                                    <button className={cn("w-16 h-8 p-1.5 rounded-sm",
+                                        "text-black bg-my-red-600",
+                                        "transition duration-300",
+                                        "hover:bg-slate-600 hover:translate-x-0.5 hover:translate-y-0.5")} 
+                                        onClick={handleQuickButtonTimerValue(50, 10, 0)}
+                                    >50/10</button>
                                 </div>
+                            </div>
+                        </div>
+                        {/* Tasks */}
+                        <div className="flex-col py-2">
+                            <div className="flex justify-center items-center pb-1">
+                                <h3 className="text-sm text-black font-playfair font-bold border-b border-black">TASKS</h3>
+                            </div>
+                            <div className="flex justify-center">
+                                <button>TODO section</button>
                             </div>
                         </div>
                         {/* Footer */}
                         <div className="flex justify-end border-t border-black pt-4">
-                            {/* TODO: ... */}
-                            <Button onClick={handleConfig} variant={'default'}>Save</Button>
+                            {/* TODO: ¿¿Change color of the save button?? */}
+                            <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
+                                "text-black bg-slate-400",
+                                "transition duration-200",
+                                "hover:bg-green-700 hover:scale-105")}
+                                onClick={handleConfig}
+                            >Save</button>
                         </div>
                     </div>
                 </DialogContent>
