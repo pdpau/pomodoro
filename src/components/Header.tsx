@@ -109,13 +109,13 @@ const Header = () => {
                                     <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
                                         "text-black bg-my-red-400",
                                         "transition duration-300",
-                                        "hover:bg-slate-400 hover:scale-105")} 
+                                        "hover:bg-my-red-500 hover:scale-105")} 
                                         onClick={handleQuickButtonTimerValue(25, 5, 0)}
                                     >25/5</button>
                                     <button className={cn("w-16 h-8 p-1.5 rounded-sm",
                                         "text-black bg-my-red-600",
                                         "transition duration-300",
-                                        "hover:bg-slate-600 hover:translate-x-0.5 hover:translate-y-0.5")} 
+                                        "hover:bg-my-red-700 hover:translate-x-0.5 hover:translate-y-0.5")} 
                                         onClick={handleQuickButtonTimerValue(50, 10, 0)}
                                     >50/10</button>
                                 </div>
@@ -134,9 +134,9 @@ const Header = () => {
                         <div className="flex justify-end border-t border-black pt-4">
                             {/* TODO: ¿¿Change color of the save button?? */}
                             <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
-                                "text-black bg-slate-400",
+                                "text-black bg-green-700",
                                 "transition duration-200",
-                                "hover:bg-green-700 hover:scale-105")}
+                                "hover:bg-green-800 hover:scale-105")}
                                 onClick={handleConfig}
                             >Save</button>
                         </div>
