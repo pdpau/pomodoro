@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <body className="flex justify-center items-center"> {/* ¿¿Mejor usar div?? */}
-        <main className="w-[450px]">
+        <main className="w-[750px]">
           <Header />
 
           <Separator className="bg-my-red-50"/>
@@ -20,7 +20,8 @@ function App() {
 
           <Separator className="bg-my-red-50"/>
 
-          {/* Here goes the todo list */}
+          {/* Here goes the footer */}
+          {/* TODO: Header i footer fixes + secció central ajustable a la mida de la pantalla */}
         </main>
       </body>
     </>
