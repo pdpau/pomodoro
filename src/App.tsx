@@ -32,9 +32,9 @@ function App() {
           <Separator className="bg-my-red-950"/>
 
           <Pomodoro 
-            pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
-            shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
-            longBreakTime={longBreakTimerValue} setLongBreakTime={setLongBreakTimerValue}
+            pomodoroTime={pomodoroTimerValue} /* setPomodoroTime={setPomodoroTimerValue} ES POT BORRAR */
+            shortBreakTime={shortBreakTimerValue} /* setShortBreakTime={setShortBreakTimerValue} */
+            longBreakTime={longBreakTimerValue} /* setLongBreakTime={setLongBreakTimerValue} */
           />
 
           <Separator className="bg-my-red-950"/>

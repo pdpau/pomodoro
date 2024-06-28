@@ -19,14 +19,14 @@ const formatTime = (minutesInput: number, setDisplay: Dispatch<SetStateAction<st
 
 interface PomodoroProps {
     pomodoroTime: number;
-    setPomodoroTime: Dispatch<SetStateAction<number>>;
+    /* setPomodoroTime: Dispatch<SetStateAction<number>>; */
     shortBreakTime: number;
-    setShortBreakTime: Dispatch<SetStateAction<number>>;
+    /* setShortBreakTime: Dispatch<SetStateAction<number>>; */
     longBreakTime: number;
-    setLongBreakTime: Dispatch<SetStateAction<number>>;
+    /* setLongBreakTime: Dispatch<SetStateAction<number>>; */
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, setPomodoroTime, shortBreakTime, setShortBreakTime, longBreakTime, setLongBreakTime}) => {
+const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
     const [temporalPomodoroTime, setTemporalPomodoroTime] = useState<number>(pomodoroTime);
     const [temporalShortBreakTime, setTemporalShortBreakTime] = useState<number>(shortBreakTime);
     const [temporalLongBreakTime, setTemporalLongBreakTime] = useState<number>(longBreakTime);
@@ -34,6 +34,8 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, setPomodoroTime, short
         setTemporalPomodoroTime(pomodoroTime);
         setTemporalShortBreakTime(shortBreakTime);
         setTemporalLongBreakTime(longBreakTime);
+        if (mode === 'work') formatTime(temporalPomodoroTime, setDisplay); /* No se si està fent algo */
+        if (mode === 'rest') formatTime(temporalShortBreakTime, setDisplay);
     }
 
 
@@ -79,17 +81,8 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, setPomodoroTime, short
 
     /* ---------- Handle WORK and BREAK buttons ---------- */
     const handleMode = (newMode: ModeType) => {
-        if (newMode === 'work' && mode === 'rest') {
-            setTemporalPomodoroTime(pomodoroTime);
-            setTemporalShortBreakTime(shortBreakTime);
-            setTemporalLongBreakTime(longBreakTime);
-        }
-        if (newMode === 'rest' && mode === 'work') {
-            setTemporalPomodoroTime(pomodoroTime);
-            setTemporalShortBreakTime(shortBreakTime);
-            setTemporalLongBreakTime(longBreakTime);
-        }
         setMode(newMode); /* TODO: Segueix el mateix problema al canviar de modes */
+        handleRestart();
     }
     /* ---------- End of handle WORK and BREAK buttons ---------- */
 
@@ -120,7 +113,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, setPomodoroTime, short
                             onClick={handleIsPlaying}
                         >Stop</button>
                     ) : (
-                        <div>
+                        <div className="space-x-4">
                             <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
                                 "bg-my-red-400",
                                 "transition duration-300",
