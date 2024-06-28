@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { cn } from "@/lib/utils";
 import { Dialog, DialogOverlay, DialogContent } from '@/components/ui/dialog';
@@ -7,42 +7,55 @@ import { GiTomato } from "react-icons/gi";
 import { RiSettings5Fill } from "react-icons/ri";
 import { IoStatsChart } from "react-icons/io5";
 
-const Header = () => {
+interface HeaderProps {
+    pomodoroTime: number;
+    setPomodoroTime: Dispatch<SetStateAction<number>>;
+    shortBreakTime: number;
+    setShortBreakTime: Dispatch<SetStateAction<number>>;
+    longBreakTime: number;
+    setLongBreakTime: Dispatch<SetStateAction<number>>;
+    handleSaveButton: (pom: number, short: number, long: number) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBreakTime, setShortBreakTime, longBreakTime, setLongBreakTime, handleSaveButton}) => {    
     const [isConfigOpen, setIsConfigOpen] = useState(false);
 
     const handleConfig = () => {
         setIsConfigOpen(!isConfigOpen);
     }
+    const auxHandleSaveButton = (pom: number, short: number, long: number) => {
+        handleSaveButton(pom, short, long);
+        handleConfig();
+    }
 
-    /* --- Timer values (user input) --- */
-    const [pomodoroTimerValue, setPomodoroTimerValue] = useState(25);
+    /* --- Timer values (user input) TODO: Acotar els inputs i sinó donar missatge d'error --- */
+    /* const [pomodoroTimerValue, setPomodoroTimerValue] = useState(25); */
     const handlePomodoroTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPomodoroTimerValue(Number(e.target.value));
+        setPomodoroTime(Number(e.target.value));
     }
-    const [shortBreakTimerValue, setShortBreakTimerValue] = useState(5);
+    /* const [shortBreakTimerValue, setShortBreakTimerValue] = useState(5); */
     const handleShortBreakTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setShortBreakTimerValue(Number(e.target.value));
+        setShortBreakTime(Number(e.target.value));
     }
-    const [longBreakTimerValue, setLongBreakTimerValue] = useState(10);
+    /* const [longBreakTimerValue, setLongBreakTimerValue] = useState(10); */
     const handleLongBreakTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLongBreakTimerValue(Number(e.target.value));
+        setLongBreakTime(Number(e.target.value));
     }
 
     const handleQuickButtonTimerValue = (pomodoro: number, shortBreak: number, longBreak: number) => () => {
-        setPomodoroTimerValue(pomodoro);
-        setShortBreakTimerValue(shortBreak);
-        setLongBreakTimerValue(longBreak);
+        setPomodoroTime(pomodoro);
+        setShortBreakTime(shortBreak);
+        setLongBreakTime(longBreak);
     }
 
     /* --- End of timer values (user input) --- */
 
     return (
         <header className={cn(
-        "flex",
-        "items-center justify-between",
+        "flex items-center justify-between",
         "my-2",
-        "text-my-red-50",
-        )}>
+        "text-my-red-950",
+        )}> {/* REVIEW: ¿¿text-my-red-950 or text-my-red-50?? */}
             <span className="flex cursor-pointer"> {/* TODO: Redirigir a la pagina de inicio */}
                 <GiTomato className="text-2xl mr-1"/>
                 <h1 className="text-xl font-schoolbell">My Pomodoro</h1>
@@ -58,10 +71,9 @@ const Header = () => {
 
             {/* Config PopUp */}
             {isConfigOpen && (
-                <Dialog open={Boolean(isConfigOpen)} onOpenChange={handleConfig} >
-                <DialogOverlay className="fixed inset-0 bg-black bg-opacity-50" /> {/* REVIEW: Lo del scrollbar */}
+                <Dialog open={Boolean(isConfigOpen)} onOpenChange={handleConfig}>
+                <DialogOverlay className="fixed inset-0 bg-black bg-opacity-50"/> {/* REVIEW: Lo del scrollbar */}
                 <DialogContent className="bg-my-red-50 rounded-lg overflow-hidden shadow-lg max-w-sm w-full max-h-[calc(100vh-2rem)] overflow-y-auto no-scrollbar">
-                    {/* TODO: ... */}
                     <div>
                         {/* Title */}
                         <div className="flex justify-center items-center border-b border-black pb-1">
@@ -81,7 +93,7 @@ const Header = () => {
                                     <div className="flex flex-col justify-center items-center">
                                         <label htmlFor="pomodoro" className="text-[10px] text-black font-playfair">POMODORO</label>
                                         <input type="number" id="pomodoro" 
-                                            value={pomodoroTimerValue} min={0} max={60} onChange={handlePomodoroTimerValue} 
+                                            value={pomodoroTime} min={0} max={60} onChange={handlePomodoroTimerValue} 
                                             className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
                                         />
                                     </div>
@@ -89,7 +101,7 @@ const Header = () => {
                                     <div className="flex flex-col justify-center items-center">
                                         <label htmlFor="short-break" className="text-[10px] text-black font-playfair">SHORT BREAK</label>
                                         <input type="number" id="short-break" 
-                                            value={shortBreakTimerValue} min={0} max={60} onChange={handleShortBreakTimerValue}
+                                            value={shortBreakTime} min={0} max={60} onChange={handleShortBreakTimerValue}
                                             className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
                                         />
                                     </div>
@@ -97,7 +109,7 @@ const Header = () => {
                                     <div className="flex flex-col justify-center items-center">
                                         <label htmlFor="long-break" className="text-[10px] text-black font-playfair">LONG BREAK</label>
                                         <input type="number" id="long-break" 
-                                            value={longBreakTimerValue} min={0} max={60} onChange={handleLongBreakTimerValue}
+                                            value={longBreakTime} min={0} max={60} onChange={handleLongBreakTimerValue}
                                             className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
                                             placeholder="yet to implement"
                                         />
@@ -137,7 +149,7 @@ const Header = () => {
                                 "text-black bg-green-700",
                                 "transition duration-200",
                                 "hover:bg-green-800 hover:scale-105")}
-                                onClick={handleConfig}
+                                onClick={() => auxHandleSaveButton(pomodoroTime, shortBreakTime, longBreakTime)}
                             >Save</button>
                         </div>
                     </div>
