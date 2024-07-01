@@ -4,9 +4,9 @@ import { Separator } from '@/components/ui/separator'
 
 import Header from './components/Header'
 import Pomodoro from './components/Pomodoro'
+import Footer from './components/Footer'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   /* Timers */
   const [pomodoroTimerValue, setPomodoroTimerValue] = useState(25);
@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <body className="flex justify-center items-center"> {/* ¿¿Mejor usar div?? */}
-        <main className="w-[750px]">
+        <main className="flex flex-col justify-between w-[750px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
           <Header 
             pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
             shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
@@ -39,12 +39,11 @@ function App() {
 
           <Separator className="bg-my-red-950"/>
 
-          {/* Here goes the footer */}
-          {/* TODO: Header i footer fixes + secció central ajustable a la mida de la pantalla */}
+          <Footer />
         </main>
       </body>
     </>
   )
-}
+};
 
-export default App
+export default App;
