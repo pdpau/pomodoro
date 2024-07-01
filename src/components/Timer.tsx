@@ -24,12 +24,14 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
     const [temporalPomodoroTime, setTemporalPomodoroTime] = useState<number>(pomodoroTime);
     const [temporalShortBreakTime, setTemporalShortBreakTime] = useState<number>(shortBreakTime);
     const [temporalLongBreakTime, setTemporalLongBreakTime] = useState<number>(longBreakTime);
-    const handleRestart = () => {
+    const handleReset = (fromResetButton: boolean) => {
         setTemporalPomodoroTime(pomodoroTime);
         setTemporalShortBreakTime(shortBreakTime);
         setTemporalLongBreakTime(longBreakTime);
-        if (mode === 'work') formatTime(temporalPomodoroTime, setDisplay); /* No se si està fent algo */
-        if (mode === 'rest') formatTime(temporalShortBreakTime, setDisplay);
+        if (fromResetButton) {
+            setMode('work'); /* Returns to the pomodoro start */
+            formatTime(temporalPomodoroTime, setDisplay);
+        }
     }
 
 
@@ -47,13 +49,13 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                 setTemporalPomodoroTime(temporalPomodoroTime => temporalPomodoroTime - (1/60));
                 if (temporalPomodoroTime <= (1/60)) {
                     setMode('rest');
-                    handleRestart();
+                    handleReset(false);
                 }
             } else if (mode === 'rest') {
                 setTemporalShortBreakTime(temporalShortBreakTime => temporalShortBreakTime - (1/60));
                 if (temporalShortBreakTime <= (1/60)) {
                     setMode('work');
-                    handleRestart();
+                    handleReset(false);
                 }
             }
         }, 1000);
@@ -76,7 +78,7 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
     /* ---------- Handle WORK and BREAK buttons ---------- */
     const handleMode = (newMode: ModeType) => {
         setMode(newMode); /* TODO: Segueix el mateix problema al canviar de modes */
-        handleRestart();
+        handleReset(false);
     }
     /* ---------- End of handle WORK and BREAK buttons ---------- */
 
@@ -86,12 +88,12 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
             "flex flex-col items-center justify-center rounded-lg", 
             "bg-white bg-opacity-10"
         )}>
-            <div id="options" className="flex gap-4">
-                <button className={cn()} onClick={() => handleMode('work')}>Work</button>
-                <button className={cn()} onClick={() => handleMode('rest')}>Break</button>
-            </div>
+            {/* <div id="options" className="flex gap-4">
+                <button className={cn("")} onClick={() => handleMode('work')}>Work</button>
+                <button className={cn("")} onClick={() => handleMode('rest')}>Break</button>
+            </div> */}
             <span className="text-xl font-bold">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
-            <span className="text-8xl font-bold">{display}</span>
+            <div className="flex justify-center w-60 text-8xl font-bold bg-white">{display}</div> {/* TODO: Que quan baixi els numeros es quedin quiets */}
             <div id="start-stop-buttons" className="flex gap-2">
                 {/* TODO: Donar estils als botons */}
                 {isPlaying ? (
@@ -113,8 +115,8 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                             "bg-my-red-400",
                             "transition duration-300",
                             "hover:bg-my-red-500 hover:scale-105")}
-                            onClick={handleRestart}
-                        >Restart</button>
+                            onClick={() => handleReset(true)}
+                        >Reset</button>
                     </div>
                 )}
             </div>
