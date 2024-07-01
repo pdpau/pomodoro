@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { cn } from "@/lib/utils";
-import { Dialog, DialogOverlay, DialogContent } from '@/components/ui/dialog';
 
 import { GiTomato } from "react-icons/gi";
 import { RiSettings5Fill } from "react-icons/ri";
 import { IoStatsChart } from "react-icons/io5";
+
+import Settings from "./Settings";
 
 interface HeaderProps {
     pomodoroTime: number;
@@ -18,8 +19,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBreakTime, setShortBreakTime, longBreakTime, setLongBreakTime, handleSaveButton}) => {    
-    const [isConfigOpen, setIsConfigOpen] = useState(false);
 
+    const [isConfigOpen, setIsConfigOpen] = useState(false);
     const handleConfig = () => {
         setIsConfigOpen(!isConfigOpen);
     }
@@ -28,27 +29,6 @@ const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBrea
         handleConfig();
     }
 
-    /* --- Timer values (user input) TODO: Acotar els inputs i sinó donar missatge d'error --- */
-    /* const [pomodoroTimerValue, setPomodoroTimerValue] = useState(25); */
-    const handlePomodoroTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPomodoroTime(Number(e.target.value));
-    }
-    /* const [shortBreakTimerValue, setShortBreakTimerValue] = useState(5); */
-    const handleShortBreakTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setShortBreakTime(Number(e.target.value));
-    }
-    /* const [longBreakTimerValue, setLongBreakTimerValue] = useState(10); */
-    const handleLongBreakTimerValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLongBreakTime(Number(e.target.value));
-    }
-
-    const handleQuickButtonTimerValue = (pomodoro: number, shortBreak: number, longBreak: number) => () => {
-        setPomodoroTime(pomodoro);
-        setShortBreakTime(shortBreak);
-        setLongBreakTime(longBreak);
-    }
-
-    /* --- End of timer values (user input) --- */
 
     return (
         <header className={cn(
@@ -71,90 +51,17 @@ const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBrea
 
             {/* Config PopUp */}
             {isConfigOpen && (
-                <Dialog open={Boolean(isConfigOpen)} onOpenChange={handleConfig}>
-                <DialogOverlay className="fixed inset-0 bg-black bg-opacity-50"/> {/* REVIEW: Lo del scrollbar */}
-                <DialogContent className="bg-my-red-50 rounded-lg overflow-hidden shadow-lg max-w-sm w-full max-h-[calc(100vh-2rem)] overflow-y-auto no-scrollbar">
-                    <div>
-                        {/* Title */}
-                        <div className="flex justify-center items-center border-b border-black pb-1">
-                            <h2 className="text-md text-black font-playfair font-black">SETTINGS</h2>
-                        </div>
-                        {/* Content */}
-                        <div>
-                            {/* --- Timer --- */} {/* TODO: ... */}
-                            <div className="flex-col py-2">
-                                <div className="flex justify-center items-center pb-1">
-                                    {/* <MdOutlineTimer className="text-xl" /> */}
-                                    <h3 className="text-sm text-black font-playfair font-bold border-b border-black">TIMER</h3>
-                                </div>
-                                {/* Timer values */}
-                                <div className="flex justify-between">
-                                    {/* Pomodoro time */}
-                                    <div className="flex flex-col justify-center items-center">
-                                        <label htmlFor="pomodoro" className="text-[10px] text-black font-playfair">POMODORO</label>
-                                        <input type="number" id="pomodoro" 
-                                            value={pomodoroTime} min={0} max={60} onChange={handlePomodoroTimerValue} 
-                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
-                                        />
-                                    </div>
-                                    {/* Short Break time */}
-                                    <div className="flex flex-col justify-center items-center">
-                                        <label htmlFor="short-break" className="text-[10px] text-black font-playfair">SHORT BREAK</label>
-                                        <input type="number" id="short-break" 
-                                            value={shortBreakTime} min={0} max={60} onChange={handleShortBreakTimerValue}
-                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
-                                        />
-                                    </div>
-                                    {/* Long Break time */}
-                                    <div className="flex flex-col justify-center items-center">
-                                        <label htmlFor="long-break" className="text-[10px] text-black font-playfair">LONG BREAK</label>
-                                        <input type="number" id="long-break" 
-                                            value={longBreakTime} min={0} max={60} onChange={handleLongBreakTimerValue}
-                                            className="w-20 h-8 pl-1.5 rounded-sm bg-slate-200" 
-                                            placeholder="yet to implement"
-                                        />
-                                    </div>
-                                </div>
-                                {/* Quick buttons */}
-                                {/* TODO: Escollir quina de les dues transicions dels botons */}
-                                <div className="flex justify-evenly mt-4">
-                                    <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
-                                        "text-black bg-my-red-400",
-                                        "transition duration-300",
-                                        "hover:bg-my-red-500 hover:scale-105")} 
-                                        onClick={handleQuickButtonTimerValue(25, 5, 0)}
-                                    >25/5</button>
-                                    <button className={cn("w-16 h-8 p-1.5 rounded-sm",
-                                        "text-black bg-my-red-600",
-                                        "transition duration-300",
-                                        "hover:bg-my-red-700 hover:translate-x-0.5 hover:translate-y-0.5")} 
-                                        onClick={handleQuickButtonTimerValue(50, 10, 0)}
-                                    >50/10</button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Tasks */}
-                        <div className="flex-col py-2">
-                            <div className="flex justify-center items-center pb-1">
-                                <h3 className="text-sm text-black font-playfair font-bold border-b border-black">TASKS</h3>
-                            </div>
-                            <div className="flex justify-center">
-                                <button>TODO section</button>
-                            </div>
-                        </div>
-                        {/* Footer */}
-                        <div className="flex justify-end border-t border-black pt-4">
-                            {/* TODO: ¿¿Change color of the save button?? */}
-                            <button className={cn("w-16 h-8 p-1.5 rounded-sm", 
-                                "text-black bg-green-700",
-                                "transition duration-200",
-                                "hover:bg-green-800 hover:scale-105")}
-                                onClick={() => auxHandleSaveButton(pomodoroTime, shortBreakTime, longBreakTime)}
-                            >Save</button>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
+                <Settings 
+                    isConfigOpen={isConfigOpen}
+                    handleConfig={handleConfig}
+                    auxHandleSaveButton={auxHandleSaveButton}
+                    pomodoroTime={pomodoroTime}
+                    setPomodoroTime={setPomodoroTime}
+                    shortBreakTime={shortBreakTime}
+                    setShortBreakTime={setShortBreakTime}
+                    longBreakTime={longBreakTime}
+                    setLongBreakTime={setLongBreakTime}
+                />
             )}
         </header>
     );
