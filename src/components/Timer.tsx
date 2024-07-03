@@ -93,25 +93,27 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                 <button className={cn("")} onClick={() => handleMode('work')}>Work</button>
                 <button className={cn("")} onClick={() => handleMode('rest')}>Break</button>
             </div> */}
-            <span className="text-4xl font-bold">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
+            <span className="text-4xl font-bold mt-4 pb-4">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
             <span className="flex justify-center w-80 text-9xl font-bold">{display}</span> {/* TODO: Que quan baixi els numeros es quedin quiets */}
             <div id="start-stop-buttons" className="flex gap-2">
                 {isPlaying ? (
-                    <button className={cn("w-16 h-8 p-1 rounded-sm", 
-                        "font-medium text-lg text-my-red-900",
-                        "transition duration-300",
-                        "hover:bg-my-red-500 hover:scale-105 hover:text-my-red-950")}
-                        onClick={handleIsPlaying}
-                    >Stop</button>
+                    <div className="mb-4">
+                        <button className={cn("w-24 h-12 rounded-sm", 
+                            "font-medium text-2xl text-my-red-900",
+                            "transition duration-300",
+                            "hover:bg-my-red-500 hover:scale-105 hover:text-my-red-950")}
+                            onClick={handleIsPlaying}
+                        >Stop</button>
+                    </div>
                 ) : (
-                    <div className="space-x-4"> {/* TODO: Escollir quin dels dos estils de botó */}
+                    <div className="space-x-4 mb-4"> {/* TODO: Escollir quin dels dos estils de botó */}
                         <button className={cn("w-24 h-12 rounded-sm", 
                             "font-medium text-2xl text-my-red-900",
                             "transition duration-300",
                             "hover:bg-my-red-400 hover:scale-105 hover:text-my-red-950")}
                             onClick={handleIsPlaying}
                         >Start</button>
-                        <button className={cn("w-24 h-12 p-1 rounded-sm", 
+                        <button className={cn("w-24 h-12 rounded-sm", 
                             "font-medium text-2xl text-my-red-900",
                             "transition duration-300",
                             "   hover:scale-105 hover:text-my-red-950")}
