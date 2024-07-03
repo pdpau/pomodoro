@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 import Timer from './Timer';
@@ -25,28 +24,24 @@ interface PomodoroProps {
 }
 
 const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
-    const [tasks, setTasks] = useState(mockTasks);
+    const [tasks] = useState(mockTasks); /* No setTasks needed for now */
 
     return (
         <section className={cn("flex flex-col justify-center", "w-full h-full", "text-my-red-950")}>
             <div className={cn("gap-x-4 mb-2", "flex items-center justify-center", "")}>
                 {/* Timer */}
                 <Timer pomodoroTime={pomodoroTime} shortBreakTime={shortBreakTime} longBreakTime={longBreakTime}/>
-
-                {/* <Separator orientation='vertical' className='bg-white' /> */}
-
                 {/* Tasks */}
                 <Tasks tasks={tasks} />
             </div>
-
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>
+                {/* Extra section */}
                 <div className={cn(
                 "min-w-[912px] min-h-[240px] max-w-[912px] max-h-[240px]", /* TODO: Adaptar height a la pantalla (nomes si deixo fixes el Timer i el Tasks) */
                 "flex flex-col rounded-lg", 
                 "bg-white bg-opacity-10"
                 )}></div>
             </div>
-
         </section>
     )
 }
