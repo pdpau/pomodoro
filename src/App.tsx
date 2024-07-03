@@ -21,25 +21,31 @@ function App() {
   return (
     <>
       <body className="flex justify-center items-center"> {/* ¿¿Mejor usar div?? */}
-        <main className="flex flex-col justify-between w-[1080px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
-          <Header 
-            pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
-            shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
-            longBreakTime={longBreakTimerValue} setLongBreakTime={setLongBreakTimerValue}
-            handleSaveButton={handleSaveButton}
-          />
+        <main className="flex flex-col justify-between w-[912px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
+          <div id="header-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
+            <Header
+              pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
+              shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
+              longBreakTime={longBreakTimerValue} setLongBreakTime={setLongBreakTimerValue}
+              handleSaveButton={handleSaveButton}
+            />
+          </div>
 
           <Separator className="bg-my-red-950"/>
 
-          <Pomodoro 
-            pomodoroTime={pomodoroTimerValue} /* setPomodoroTime={setPomodoroTimerValue} ES POT BORRAR */
-            shortBreakTime={shortBreakTimerValue} /* setShortBreakTime={setShortBreakTimerValue} */
-            longBreakTime={longBreakTimerValue} /* setLongBreakTime={setLongBreakTimerValue} */
-          />
+          <div id="main-section" className="my-2">
+            <Pomodoro
+              pomodoroTime={pomodoroTimerValue} /* setPomodoroTime={setPomodoroTimerValue} ES POT BORRAR */
+              shortBreakTime={shortBreakTimerValue} /* setShortBreakTime={setShortBreakTimerValue} */
+              longBreakTime={longBreakTimerValue} /* setLongBreakTime={setLongBreakTimerValue} */
+            />
+          </div>
 
           <Separator className="bg-my-red-950"/>
 
-          <Footer />
+          <div id="footer-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
+            <Footer />
+          </div>
         </main>
       </body>
     </>

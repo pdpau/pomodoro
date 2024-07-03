@@ -32,10 +32,9 @@ const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBrea
 
     return (
         <header className={cn(
-        "flex items-center justify-between",
-        "h-12 my-2",
-        "text-my-red-950",
-        )}> {/* REVIEW: ¿¿text-my-red-950 or text-my-red-50?? */}
+            "flex items-center justify-between",
+            "text-my-red-950",
+        )}>
             <span className="flex cursor-pointer"> {/* TODO: Redirigir a la pagina de inicio */}
                 <GiTomato className="text-2xl mr-1"/>
                 <h1 className="text-2xl font-schoolbell">My Pomodoro</h1>
