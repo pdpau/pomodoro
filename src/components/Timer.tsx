@@ -84,7 +84,7 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
 
 
     return (
-        <div className={cn("min-w-80 min-h-56 max-w-80 max-h-56", 
+        <div className={cn("min-w-80 min-h-60 max-w-80 max-h-60", 
             "flex flex-col items-center justify-evenly rounded-lg", 
             "bg-white bg-opacity-10"
         )}>
