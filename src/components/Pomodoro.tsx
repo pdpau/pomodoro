@@ -28,11 +28,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
     const [tasks, setTasks] = useState(mockTasks);
 
     return (
-        <section className={cn("w-full h-full p-8", "flex items-center justify-between", "text-my-red-950")}>
+        <section className={cn("w-full h-full gap-x-4", "flex items-center justify-center", "text-my-red-950")}>
             {/* Timer */}
             <Timer pomodoroTime={pomodoroTime} shortBreakTime={shortBreakTime} longBreakTime={longBreakTime}/>
 
-            <Separator orientation='vertical' className='bg-white' />
+            {/* <Separator orientation='vertical' className='bg-white' /> */}
 
             {/* Tasks */}
             <Tasks tasks={tasks} />

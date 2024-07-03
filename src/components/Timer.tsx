@@ -84,7 +84,8 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
 
 
     return (
-        <div className={cn("min-w-80 min-h-60 max-w-80 max-h-60", 
+        <div className={cn(
+            "min-w-[512px] min-h-[320px] max-w-[512px] max-h-[320px]", 
             "flex flex-col items-center justify-evenly rounded-lg", 
             "bg-white bg-opacity-10"
         )}>
@@ -92,10 +93,9 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                 <button className={cn("")} onClick={() => handleMode('work')}>Work</button>
                 <button className={cn("")} onClick={() => handleMode('rest')}>Break</button>
             </div> */}
-            <span className="text-3xl font-bold">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
-            <span className="flex justify-center w-60 text-8xl font-bold">{display}</span> {/* TODO: Que quan baixi els numeros es quedin quiets */}
+            <span className="text-4xl font-bold">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
+            <span className="flex justify-center w-80 text-9xl font-bold">{display}</span> {/* TODO: Que quan baixi els numeros es quedin quiets */}
             <div id="start-stop-buttons" className="flex gap-2">
-                {/* TODO: Donar estils als botons */}
                 {isPlaying ? (
                     <button className={cn("w-16 h-8 p-1 rounded-sm", 
                         "font-medium text-lg text-my-red-900",
@@ -105,14 +105,14 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                     >Stop</button>
                 ) : (
                     <div className="space-x-4"> {/* TODO: Escollir quin dels dos estils de botó */}
-                        <button className={cn("w-16 h-8 p-1 rounded-sm", 
-                            "font-medium text-lg text-my-red-900",
+                        <button className={cn("w-24 h-12 rounded-sm", 
+                            "font-medium text-2xl text-my-red-900",
                             "transition duration-300",
                             "hover:bg-my-red-400 hover:scale-105 hover:text-my-red-950")}
                             onClick={handleIsPlaying}
                         >Start</button>
-                        <button className={cn("w-16 h-8 p-1 rounded-sm", 
-                            "font-medium text-lg text-my-red-900",
+                        <button className={cn("w-24 h-12 p-1 rounded-sm", 
+                            "font-medium text-2xl text-my-red-900",
                             "transition duration-300",
                             "   hover:scale-105 hover:text-my-red-950")}
                             onClick={() => handleReset(true)}

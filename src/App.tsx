@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       <body className="flex justify-center items-center"> {/* ¿¿Mejor usar div?? */}
-        <main className="flex flex-col justify-between w-[750px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
+        <main className="flex flex-col justify-between w-[1080px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
           <Header 
             pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
             shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}

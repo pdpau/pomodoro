@@ -33,19 +33,19 @@ const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBrea
     return (
         <header className={cn(
         "flex items-center justify-between",
-        "h-8 my-2",
+        "h-12 my-2",
         "text-my-red-950",
         )}> {/* REVIEW: ¿¿text-my-red-950 or text-my-red-50?? */}
             <span className="flex cursor-pointer"> {/* TODO: Redirigir a la pagina de inicio */}
                 <GiTomato className="text-2xl mr-1"/>
-                <h1 className="text-xl font-schoolbell">My Pomodoro</h1>
+                <h1 className="text-2xl font-schoolbell">My Pomodoro</h1>
             </span>
             <div className="flex">
-                <button className={cn("flex justify-center items-center bg-white bg-opacity-10", "mr-1 p-1 w-12 rounded-sm")}>
-                    <IoStatsChart className="text-lg"/> {/* LATER: PopUp for STATS */}
+                <button className={cn("flex justify-center items-center bg-white bg-opacity-10", "mr-1 p-1 w-14 rounded-sm")}>
+                    <IoStatsChart className="text-xl"/> {/* LATER: PopUp for STATS */}
                 </button>
-                <button onClick={handleConfig} className={cn("flex justify-center items-center bg-white bg-opacity-10", "ml-1 p-1 w-12 rounded-sm")}>
-                    <RiSettings5Fill className="text-xl"/>
+                <button onClick={handleConfig} className={cn("flex justify-center items-center bg-white bg-opacity-10", "ml-1 p-1 w-14 rounded-sm")}>
+                    <RiSettings5Fill className="text-2xl"/>
                 </button>
             </div>
 
