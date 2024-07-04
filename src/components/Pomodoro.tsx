@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { type TaskId } from '@/types';
+import { type TaskType, type TaskCompleted, type TaskId } from '@/types';
 
 import Timer from './Timer';
 import Tasks from './Tasks';
@@ -13,32 +13,7 @@ const mockTasks = [
     { id: 2, text: 'Learn Recoil', completed: false },
     { id: 3, text: 'Build a cool app', completed: false },
     { id: 4, text: 'Learn Tailwind', completed: false },
-    { id: 5, text: 'Learn Recoil', completed: false },
-    { id: 6, text: 'Build a cool app', completed: false },
-    { id: 7, text: 'Learn Tailwind', completed: false },
-    { id: 8, text: 'Learn Recoil', completed: false },
-    { id: 9, text: 'Build a cool app', completed: false },
-    { id: 10, text: 'Learn Tailwind', completed: false },
-    { id: 11, text: 'Learn Recoil', completed: false },
-    { id: 12, text: 'Build a cool app', completed: false },
-    { id: 13, text: 'Learn Tailwind', completed: false },
-    { id: 14, text: 'Learn Recoil', completed: false },
-    { id: 15, text: 'Build a cool app', completed: false },
-    { id: 16, text: 'Learn Tailwind', completed: false },
-    { id: 17, text: 'Learn Recoil', completed: false },
-    { id: 18, text: 'Build a cool app', completed: false },
-    { id: 19, text: 'Learn Tailwind', completed: false },
-    { id: 20, text: 'Learn Recoil', completed: false },
-    { id: 21, text: 'Build a cool app', completed: false },
-    { id: 22, text: 'Learn Tailwind', completed: false },
-    { id: 23, text: 'Learn Recoil', completed: false },
-    { id: 24, text: 'Build a cool app', completed: false },
-    { id: 25, text: 'Learn Tailwind', completed: false },
-    { id: 26, text: 'Learn Recoil', completed: false },
-    { id: 27, text: 'Build a cool app', completed: false },
-    { id: 28, text: 'Learn Tailwind', completed: false },
-    { id: 29, text: 'Learn Recoil', completed: false },
-    { id: 30, text: 'Build a cool app', completed: false }
+    { id: 5, text: 'Learn Recoil', completed: false }
 ];
 
 
@@ -53,16 +28,27 @@ interface PomodoroProps {
 }
 
 const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
-    
+
     /* Tasks functions */
     const [tasks, setTasks] = useState(mockTasks);
 
     const handleRemoveTask = ({ id }: TaskId) => {
-        /* Remove task from tasks */
         const newTasks = tasks.filter(task => task.id !== id);
         setTasks(newTasks);
-    }
+    };
 
+    const handleCompleteTask = ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => {
+        const newTasks = tasks.map(task => {
+            if (task.id === id) {
+                return {
+                    ...task,
+                    completed
+                }
+            }
+            return task;
+        });
+        setTasks(newTasks);
+    };
     /* End of tasks functions */
 
     return (
@@ -78,10 +64,11 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 <Tasks
                     tasks={tasks}
                     handleRemove={handleRemoveTask}
+                    handleComplete={handleCompleteTask}
                 />
             </div>
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>
-                {/* Extra section */}
+                {/* Extra section (¿textarea for notes?) */}
                 <div className={cn(
                 "min-w-[912px] min-h-[240px] max-w-[912px] max-h-[240px]", /* TODO: Adaptar height a la pantalla (nomes si deixo fixes el Timer i el Tasks) */
                 "flex flex-col rounded-lg", 

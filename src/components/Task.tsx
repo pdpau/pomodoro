@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 import { cn } from "@/lib/utils";
 import { type TaskType, type TaskId } from "@/types";
@@ -9,18 +9,12 @@ import { FaTrashCan } from "react-icons/fa6";
 
 
 
-interface Props extends TaskType{
+interface Props extends TaskType {
     handleRemove: ({ id }: TaskId) => void;
+    handleComplete: ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => void;
 }
 
-const Task: React.FC<Props> = ({ id, text, completed, handleRemove }) => {
-
-    /* Checkbox functions */
-    const [isChecked, setIsChecked] = useState(completed);
-    const handleCheckbox = () => {
-        setIsChecked(!isChecked);
-    }
-    /* End of checkbox functions */
+const Task: React.FC<Props> = ({ id, text, completed, handleRemove, handleComplete }) => {
 
 
     /* TODO: Gestionar les tasques amb un text massa llarg */
@@ -34,14 +28,16 @@ const Task: React.FC<Props> = ({ id, text, completed, handleRemove }) => {
                 {/* Task CHECKBOX */}
                 <StyledCheckbox
                     key={id}
-                    isChecked={isChecked}
-                    handleCheckbox={handleCheckbox}
+                    id={id}
+                    text={text}
+                    completed={completed}
+                    handleComplete={handleComplete}
                 />
-                
+
                 {/* Task TEXT (line-through animació) */}
                 <span className={cn(
                         "relative flex items-center text-lg font-medium",
-                        `${isChecked ? 'text-my-red-900' : 'text-my-red-950'}`
+                        `${completed ? 'text-my-red-900' : 'text-my-red-950'}`
                     )}
                     style={{ display: "inline-block" }}
                 >
@@ -49,7 +45,7 @@ const Task: React.FC<Props> = ({ id, text, completed, handleRemove }) => {
                     {/* Span de la linea que tacha */}
                     <span className={cn(
                             "absolute left-0 top-1/2 h-[2px] bg-my-red-900",
-                            `${isChecked ? 'w-full' : 'w-0'}`
+                            `${completed ? 'w-full' : 'w-0'}`
                         )}
                         style={{
                             transition: 'width 0.5s ease, top 0.5s ease',

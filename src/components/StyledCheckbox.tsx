@@ -1,21 +1,43 @@
+import { ChangeEvent } from "react";
 
-interface StyledCheckboxProps {
-    isChecked: boolean;
-    handleCheckbox: () => void;
+import { type TaskType } from "@/types";
+
+interface StyledCheckboxProps extends TaskType {
+    /* handleCheckbox: () => void; */
+    handleComplete: ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => void;
 }
 
-const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ isChecked, handleCheckbox }) => {
+const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ id, text, completed, handleComplete }) => {
 
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        handleComplete({
+            id,
+            completed: event.target.checked 
+        });
+    };
 
     return (
-        <div className="checkbox-wrapper-61 relative block overflow-hidden" 
-            onClick={handleCheckbox}
-        >
+        <div className="checkbox-wrapper-61 relative block overflow-hidden">
             <style>
                 {`
                 .checkbox-wrapper-61 input[type="checkbox"] {
-                    visibility: hidden;
-                    display: none;
+                    position: absolute;
+                    width: 40px;
+                    height: 40px;
+                    margin: 0;
+                    padding: 0;
+                    opacity: 0;
+                    z-index: 1; /* Ensures input is on top for clicking */
+                    cursor: pointer;
+                }
+                .checkbox-wrapper-61 input[type="checkbox"] + label {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40px;
+                    height: 40px;
+                    cursor: pointer;
                 }
 
                 .checkbox-wrapper-61 *,
@@ -46,8 +68,9 @@ const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ isChecked, handleCheckb
             </style>
             <input
                 type="checkbox"
-                checked={isChecked}
+                checked={completed}
                 className="check absolute w-10 h-10 opacity-0"
+                onChange={handleCheckboxChange}
             />
             <label className="flex items-center justify-center space-x-2 cursor-pointer">
                 <svg width="40" height="40" viewBox="0 0 90 90">
@@ -58,7 +81,7 @@ const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ isChecked, handleCheckb
                             stroke="#400f0f"
                             strokeWidth="2.5"
                             fill="none"
-                            className={`path1 transition-all duration-500 stroke-dasharray-350 ${isChecked ? 'stroke-dashoffset-0 opacity-100' : 'stroke-dashoffset-350 opacity-0'}`}
+                            className={`path1 transition-all duration-500 stroke-dasharray-350 ${completed ? 'stroke-dashoffset-0 opacity-100' : 'stroke-dashoffset-350 opacity-0'}`}
                         />
                     </g>
                 </svg>

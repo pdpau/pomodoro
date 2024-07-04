@@ -13,12 +13,13 @@ import { FaPlus } from "react-icons/fa";
 interface Props {
     tasks: TaskType[];
     handleRemove: ({ id }: TaskId) => void;
+    handleComplete: ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => void;
 }
 
-const Tasks: React.FC<Props> = ({ tasks, handleRemove }) => {
+const Tasks: React.FC<Props> = ({ tasks, handleRemove, handleComplete }) => {
 
 
-    {/* Main div must be the same as Timer */}
+    /* Main div must be the same as Timer */
     return (
         <div className={cn(
             "min-w-[448px] min-h-[260px] max-w-[448px] max-h-[260px]", 
@@ -70,6 +71,7 @@ const Tasks: React.FC<Props> = ({ tasks, handleRemove }) => {
                                 text={task.text}
                                 completed={task.completed}
                                 handleRemove={handleRemove}
+                                handleComplete={handleComplete}
                             />
                         </li>
                     ))}
