@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { type TaskType } from "@/types";
+import { type TaskType, type TaskId } from "@/types";
 
 import StyledCheckbox from "./StyledCheckbox";
 
@@ -10,7 +10,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 
 interface Props extends TaskType{
-    handleRemove: (id: number) => void;
+    handleRemove: ({ id }: TaskId) => void;
 }
 
 const Task: React.FC<Props> = ({ id, text, completed, handleRemove }) => {
@@ -59,7 +59,7 @@ const Task: React.FC<Props> = ({ id, text, completed, handleRemove }) => {
                 </span>
             </div>
             <div>
-                <button onClick={() => handleRemove(id)}
+                <button onClick={() => handleRemove({ id })}
                     className={cn(
                         "flex items-center justify-center", /* bg-white per fer proves */
                         "w-8 h-8 rounded-md", 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { type TaskId } from '@/types';
+
 import Timer from './Timer';
 import Tasks from './Tasks';
 
@@ -55,7 +57,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
     /* Tasks functions */
     const [tasks, setTasks] = useState(mockTasks);
 
-    const handleRemoveTask = (id: number) => {
+    const handleRemoveTask = ({ id }: TaskId) => {
         /* Remove task from tasks */
         const newTasks = tasks.filter(task => task.id !== id);
         setTasks(newTasks);

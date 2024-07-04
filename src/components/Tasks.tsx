@@ -1,7 +1,7 @@
 
 
 import { cn } from "@/lib/utils";
-import { type TaskType } from "@/types";
+import { type TaskType, type TaskId } from "@/types";
 
 import { Separator } from '@/components/ui/separator';
 
@@ -12,7 +12,7 @@ import { FaPlus } from "react-icons/fa";
 
 interface Props {
     tasks: TaskType[];
-    handleRemove: (id: number) => void;
+    handleRemove: ({ id }: TaskId) => void;
 }
 
 const Tasks: React.FC<Props> = ({ tasks, handleRemove }) => {
