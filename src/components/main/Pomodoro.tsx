@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { type TaskType, type TaskCompleted, type TaskId } from '@/types';
+import { type TaskType, type TaskId } from '@/types';
 
-import Timer from './Timer';
-import Tasks from './Tasks';
+import Timer from './timer-section/Timer';
+import Tasks from './tasks-section/Tasks';
 
 /* Mock TODOs */
 const mockTasks = [
@@ -76,8 +76,8 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 )}>
                     <div className="m-2">
                         <h1 className="font-bold">Next steps</h1>
-                        <p>Line through</p>
                         <p>Seguir amb el video de Midu</p>
+                        <p>Funcionalitat "add task"</p>
                     </div>
                 </div>
             </div>

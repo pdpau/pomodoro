@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { Separator } from '@/components/ui/separator'
 
-import Header from './components/Header'
-import Pomodoro from './components/Pomodoro'
-import Footer from './components/Footer'
+import Header from './components/header/Header'
+import Pomodoro from './components/main/Pomodoro'
+import Footer from './components/footer/Footer'
 
 function App() {
 

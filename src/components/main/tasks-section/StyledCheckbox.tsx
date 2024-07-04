@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 
 import { type TaskType } from "@/types";
 
@@ -9,7 +8,7 @@ interface StyledCheckboxProps extends TaskType {
 
 const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ id, text, completed, handleComplete }) => {
 
-    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         handleComplete({
             id,
             completed: event.target.checked 
