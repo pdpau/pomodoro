@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { TaskType } from "@/types";
+import { type TaskType } from "@/types";
 
 import StyledCheckbox from "./StyledCheckbox";
 
