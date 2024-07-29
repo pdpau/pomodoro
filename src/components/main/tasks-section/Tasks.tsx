@@ -47,8 +47,7 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                 "mx-1 h-10", /* h-[40px] */
                 ""
             )}>
-                {/* TODO: Centrar verticalment el text del input */}
-                <input type="text" 
+                <input type="text"
                     value={userInputText}
                     onChange={handleUserInput}
                     placeholder="Add a task..."
