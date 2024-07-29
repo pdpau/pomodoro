@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { type TaskType, type TaskId } from '@/types';
+import { type TaskType, type TaskId, type TaskText, type FilterValue } from '@/types';
+import { TASK_FILTERS } from '@/consts';
 
 import Timer from './timer-section/Timer';
 import Tasks from './tasks-section/Tasks';
@@ -29,10 +30,9 @@ interface PomodoroProps {
 
 const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
 
-    /* Tasks functions */
+    /* --- Add and remove tasks functions --- */
     const [tasks, setTasks] = useState(mockTasks);
-
-    const handleAddTask = (text: string) => {
+    const handleAddTask = ({ text }: TaskText) => {
         const newTask = {
             id: tasks.length + 1,
             text,
@@ -56,7 +56,20 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
         });
         setTasks(newTasks);
     };
-    /* End of tasks functions */
+    /* --- End of add and remove tasks functions --- */
+
+    /* --- Filter task functions --- */
+    const [filterSelected, setFilterSelected] = useState<FilterValue>(TASK_FILTERS.ALL); /* Empieza mostrando todos */
+    const handleFilterChange = (filter: FilterValue): void => {
+        setFilterSelected(filter);
+    };
+    const filteredTasks = tasks.filter(task => {
+        if (filterSelected === TASK_FILTERS.ACTIVE) return !task.completed;
+        if (filterSelected === TASK_FILTERS.COMPLETED) return task.completed;
+        return task;
+    });
+    /* --- End of filter task functions --- */
+
 
     return (
         <section className={cn("flex flex-col justify-center", "w-full h-full", "text-my-red-950")}>
@@ -69,10 +82,12 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 />
                 {/* Tasks */}
                 <Tasks
-                    tasks={tasks}
+                    tasks={filteredTasks}
                     handleAdd={handleAddTask}
                     handleRemove={handleRemoveTask}
                     handleComplete={handleCompleteTask}
+                    filterSelected={filterSelected}
+                    handleFilterChange={handleFilterChange}
                 />
             </div>
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>

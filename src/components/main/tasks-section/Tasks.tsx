@@ -1,38 +1,49 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { type TaskType, type TaskId } from "@/types";
+import { type TaskType, type TaskId, type TaskText, type FilterValue } from "@/types";
 
 import { Separator } from '@/components/ui/separator';
 
 import Task from "./Task";
+import TaskFilters from "./TaskFilters";
 
 import { FaPlus } from "react-icons/fa";
 
 
 interface Props {
     tasks: TaskType[];
-    handleAdd: (text: string) => void;
+    /* Add and remove */
+    handleAdd: ({ text }: TaskText) => void;
     handleRemove: ({ id }: TaskId) => void;
     handleComplete: ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => void;
+    /* Filters */
+    filterSelected: FilterValue;
+    handleFilterChange: (filter: FilterValue) => void;
 }
 
-const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete }) => {
+const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete, filterSelected, handleFilterChange }) => {
 
-    /* Handling user input */
-    const [userInputText, setUserInputText] = useState<string>('');
-
+    /* --- Handling user input --- */
+    const [userInputText, setUserInputText] = useState('');
     const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        event.preventDefault();
         setUserInputText(event.target.value);
     };
-    /* End of handling user input */
+    /* --- End of handling user input --- */
 
-    const addTaskAndCleanInput = () => {
+    /* --- Add task --- */
+    const addTaskAndCleanInput = (): void => {
         if (userInputText.trim() !== '') {
-            handleAdd(userInputText);
+            handleAdd({ text: userInputText });
             setUserInputText(''); /* Clean the input */
         }
     }
+    const handleInputSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+        addTaskAndCleanInput();
+    }
+    /* --- End of add task --- */
 
     /* Main div must be the same as Timer */
     return (
@@ -47,17 +58,19 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                 "mx-1 h-10", /* h-[40px] */
                 ""
             )}>
-                <input type="text"
-                    value={userInputText}
-                    onChange={handleUserInput}
-                    placeholder="Add a task..."
-                    className={cn(
-                        "mt-0.5 px-2 py-1 h-full w-5/6",
-                        "bg-transparent placeholder-my-red-900 text-my-red-950 text-xl font-medium",
-                        "focus:outline-none focus:border-none focus:ring-0",
-                        "placeholder:translate-y-0.5 placeholder:translate-x-0.5",
-                    )} 
-                />
+                <form onSubmit={handleInputSubmit}>
+                    <input type="text"
+                        value={userInputText}
+                        onChange={handleUserInput}
+                        placeholder="Add a task..."
+                        className={cn(
+                            "mt-0.5 px-2 py-1 h-full w-5/6",
+                            "bg-transparent placeholder-my-red-900 text-my-red-950 text-xl font-medium",
+                            "focus:outline-none focus:border-none focus:ring-0",
+                            "placeholder:translate-y-0.5 placeholder:translate-x-0.5",
+                        )} 
+                    />
+                </form>
                 {/* Botó d'afegir task */}
                 <button onClick={addTaskAndCleanInput}
                     className={cn(
@@ -79,7 +92,7 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                 "py-1",
                 "overflow-y-auto no-scrollbar"
             )}>
-                <ul className="">
+                <ul>
                     {tasks.map((task) => (
                         <li key={task.id}>
                             <Task 
@@ -93,6 +106,23 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                         </li>
                     ))}
                 </ul>
+            </div>
+
+            <Separator className="bg-my-red-950"/>
+
+            {/* Filters section */}
+            <div className={cn(
+                "flex items-center justify-between",
+                "mx-1 h-[36px]", /* h-[32px] */
+                ""
+            )}>
+                <TaskFilters
+                    activeCount={tasks.filter(task => !task.completed).length}
+                    completedCount={tasks.filter(task => task.completed).length}
+                    filterSelected={filterSelected}
+                    onFilterChange={handleFilterChange}
+                />
+                <span><strong>{tasks.filter(task => !task.completed).length}</strong> tareas pendientes</span>
             </div>
         </div>
     );
