@@ -7,35 +7,30 @@ import { TASK_FILTERS } from '@/consts';
 
 import Timer from './timer-section/Timer';
 import Tasks from './tasks-section/Tasks';
+import Notebook from './Notebook';
 
 /* Mock TODOs */
 const mockTasks = [
-    { id: "1", text: 'Learn React', completed: true }, /* ajksbikauncoancnclkaliclkcmlskvlvnkislovnlzkdnakjcknlneldicmesklksmld fmslivkmslvejfilik */
-    { id: "2", text: 'Learn Recoil', completed: false },
-    { id: "3", text: 'Build a cool app', completed: false },
-    { id: "4", text: 'Learn Tailwind', completed: false },
-    { id: "5", text: 'Learn Recoil', completed: false }
+    { id: "1", text: 'Complete a pomodoro', completed: true }, /* ajksbikauncoancnclkaliclkcmlskvlvnkislovnlzkdnakjcknlneldicmesklksmld fmslivkmslvejfilik */
+    { id: "2", text: 'Answer 10 emails', completed: false },
+    { id: "3", text: 'Call grandma', completed: false }
 ];
 
 
 
-interface PomodoroProps {
+interface Props {
     pomodoroTime: number;
-    /* setPomodoroTime: Dispatch<SetStateAction<number>>; */
     shortBreakTime: number;
-    /* setShortBreakTime: Dispatch<SetStateAction<number>>; */
     longBreakTime: number;
-    /* setLongBreakTime: Dispatch<SetStateAction<number>>; */
 }
 
-const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
+const Pomodoro: React.FC<Props> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
 
     /* --- Add and remove tasks functions --- */
     const [tasks, setTasks] = useState(mockTasks);
     const handleAddTask = ({ text }: TaskText) => {
         const newTask = {
             id: crypto.randomUUID(),
-            /* id: tasks.length + 1, */
             text,
             completed: false
         };
@@ -75,7 +70,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
 
     return (
         <section className={cn("flex flex-col justify-center", "w-full h-full", "text-my-red-950")}>
-            <div className={cn("gap-x-4 mb-2", "flex items-center justify-center", "")}>
+            <div className={cn("gap-x-4 mb-2", "flex items-center justify-center")}>
                 {/* Timer */}
                 <Timer
                     pomodoroTime={pomodoroTime}
@@ -94,17 +89,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
             </div>
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>
                 {/* EXTRA SECTION (¿textarea for notes?) */}
-                <div className={cn(
-                "min-w-[912px] min-h-[240px] max-w-[912px] max-h-[240px]", /* TODO: Adaptar height a la pantalla (nomes si deixo fixes el Timer i el Tasks) */
-                "flex flex-col rounded-lg", 
-                "bg-white bg-opacity-10"
-                )}>
-                    <div className="m-2">
-                        <h1 className="font-bold">Next steps</h1>
-                        <p>Que aquesta secció sigui com una llibreta o pissarra</p>
-                        <p>Comptador que indiqui quants pomodoros hem completat avui</p>
-                    </div>
-                </div>
+                <Notebook />
             </div>
         </section>
     )
