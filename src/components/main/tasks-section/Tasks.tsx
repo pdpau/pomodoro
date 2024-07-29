@@ -122,7 +122,9 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                     filterSelected={filterSelected}
                     onFilterChange={handleFilterChange}
                 />
-                <span><strong>{tasks.filter(task => !task.completed).length}</strong> tareas pendientes</span>
+                <span className="font-medium text-lg px-2">
+                    <strong>{tasks.filter(task => !task.completed).length}</strong> tareas pendientes
+                </span>
             </div>
         </div>
     );

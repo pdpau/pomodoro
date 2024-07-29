@@ -34,10 +34,12 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
     const [tasks, setTasks] = useState(mockTasks);
     const handleAddTask = ({ text }: TaskText) => {
         const newTask = {
-            id: tasks.length + 1,
+            id: parseInt(crypto.randomUUID()),
+            /* id: tasks.length + 1, */
             text,
             completed: false
         };
+        console.log(newTask);
         setTasks([...tasks, newTask]);
     };
     const handleRemoveTask = ({ id }: TaskId) => {
@@ -99,8 +101,6 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 )}>
                     <div className="m-2">
                         <h1 className="font-bold">Next steps</h1>
-                        <p>Seguir amb el video de Midu (53:15)</p>
-                        <p>Afegir una forma de filtrar</p>
                         <p>Que aquesta secció sigui com una llibreta o pissarra</p>
                         <p>Comptador que indiqui quants pomodoros hem completat avui</p>
                     </div>
