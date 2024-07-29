@@ -1,3 +1,4 @@
+/* APUNTES: El primer const es variable de JS y el "as const" es para decirle a TS que la variable no es reasignable */
 export const TASK_FILTERS = {
     ALL: 'all',
     ACTIVE: 'active',
