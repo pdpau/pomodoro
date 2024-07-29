@@ -32,11 +32,18 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
     /* Tasks functions */
     const [tasks, setTasks] = useState(mockTasks);
 
+    const handleAddTask = (text: string) => {
+        const newTask = {
+            id: tasks.length + 1,
+            text,
+            completed: false
+        };
+        setTasks([...tasks, newTask]);
+    };
     const handleRemoveTask = ({ id }: TaskId) => {
         const newTasks = tasks.filter(task => task.id !== id);
         setTasks(newTasks);
     };
-
     const handleCompleteTask = ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => {
         const newTasks = tasks.map(task => {
             if (task.id === id) {
@@ -63,12 +70,13 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 {/* Tasks */}
                 <Tasks
                     tasks={tasks}
+                    handleAdd={handleAddTask}
                     handleRemove={handleRemoveTask}
                     handleComplete={handleCompleteTask}
                 />
             </div>
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>
-                {/* Extra section (¿textarea for notes?) */}
+                {/* EXTRA SECTION (¿textarea for notes?) */}
                 <div className={cn(
                 "min-w-[912px] min-h-[240px] max-w-[912px] max-h-[240px]", /* TODO: Adaptar height a la pantalla (nomes si deixo fixes el Timer i el Tasks) */
                 "flex flex-col rounded-lg", 
@@ -76,8 +84,9 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                 )}>
                     <div className="m-2">
                         <h1 className="font-bold">Next steps</h1>
-                        <p>Seguir amb el video de Midu</p>
+                        <p>Seguir amb el video de Midu (53:15)</p>
                         <p>Funcionalitat "add task"</p>
+                        <p>Afegir una forma de filtrar</p>
                     </div>
                 </div>
             </div>
