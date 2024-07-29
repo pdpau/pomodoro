@@ -85,8 +85,9 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
                     <div className="m-2">
                         <h1 className="font-bold">Next steps</h1>
                         <p>Seguir amb el video de Midu (53:15)</p>
-                        <p>Funcionalitat "add task"</p>
                         <p>Afegir una forma de filtrar</p>
+                        <p>Que aquesta secció sigui com una llibreta o pissarra</p>
+                        <p>Comptador que indiqui quants pomodoros hem completat avui</p>
                     </div>
                 </div>
             </div>
