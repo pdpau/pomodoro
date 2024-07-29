@@ -10,11 +10,11 @@ import Tasks from './tasks-section/Tasks';
 
 /* Mock TODOs */
 const mockTasks = [
-    { id: 1, text: 'Learn React', completed: true }, /* ajksbikauncoancnclkaliclkcmlskvlvnkislovnlzkdnakjcknlneldicmesklksmld fmslivkmslvejfilik */
-    { id: 2, text: 'Learn Recoil', completed: false },
-    { id: 3, text: 'Build a cool app', completed: false },
-    { id: 4, text: 'Learn Tailwind', completed: false },
-    { id: 5, text: 'Learn Recoil', completed: false }
+    { id: "1", text: 'Learn React', completed: true }, /* ajksbikauncoancnclkaliclkcmlskvlvnkislovnlzkdnakjcknlneldicmesklksmld fmslivkmslvejfilik */
+    { id: "2", text: 'Learn Recoil', completed: false },
+    { id: "3", text: 'Build a cool app', completed: false },
+    { id: "4", text: 'Learn Tailwind', completed: false },
+    { id: "5", text: 'Learn Recoil', completed: false }
 ];
 
 
@@ -34,7 +34,7 @@ const Pomodoro: React.FC<PomodoroProps> = ({pomodoroTime, shortBreakTime, longBr
     const [tasks, setTasks] = useState(mockTasks);
     const handleAddTask = ({ text }: TaskText) => {
         const newTask = {
-            id: parseInt(crypto.randomUUID()),
+            id: crypto.randomUUID(),
             /* id: tasks.length + 1, */
             text,
             completed: false

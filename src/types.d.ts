@@ -4,7 +4,7 @@ import { TASK_FILTERS } from './consts';
 export type ModeType = 'work' | 'rest';
 
 export type TaskType = {
-    id: number;
+    id: string;
     text: string;
     completed: boolean;
 };
