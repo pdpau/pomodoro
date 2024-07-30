@@ -35,6 +35,7 @@ const Task: React.FC<Props> = ({ id, text, completed, handleRemove, handleComple
                     text={text}
                     completed={completed}
                     handleComplete={handleComplete}
+                    isRedPalette={isRedPalette}
                 />
 
                 {/* Task TEXT (line-through animació) */}

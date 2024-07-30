@@ -1,12 +1,14 @@
 
+import { cn } from "@/lib/utils";
 import { type TaskType } from "@/types";
 
 interface StyledCheckboxProps extends TaskType {
-    /* handleCheckbox: () => void; */
     handleComplete: ({ id, completed }: Pick<TaskType, 'id' | 'completed' >) => void;
+    /* Background color */
+    isRedPalette: boolean;
 }
 
-const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ id, text, completed, handleComplete }) => {
+const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ id, text, completed, handleComplete, isRedPalette }) => {
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         handleComplete({
@@ -73,11 +75,11 @@ const StyledCheckbox: React.FC<StyledCheckboxProps> = ({ id, text, completed, ha
             />
             <label className="flex items-center justify-center space-x-2 cursor-pointer">
                 <svg width="40" height="40" viewBox="0 0 90 90">
-                    <rect x="20" y="20" width="45" height="45" stroke="#400f0f" strokeWidth="2.5" fill="none"/>
+                    <rect x="20" y="20" width="45" height="45" stroke={cn(isRedPalette ? "#400f0f" : "#052e16")} strokeWidth="2.5" fill="none"/>
                     <g transform="translate(0,-940)">
                         <path
                             d="m 50,950 c -75,95 5,7 6,7 12,-4 -50,60 -30,45 95,-65 -5,10 15,3 23,-9 35,-35 18,-4 "
-                            stroke="#400f0f"
+                            stroke={cn(isRedPalette ? "#400f0f" : "#052e16")}
                             strokeWidth="2.5"
                             fill="none"
                             className={`path1 transition-all duration-500 stroke-dasharray-350 ${completed ? 'stroke-dashoffset-0 opacity-100' : 'stroke-dashoffset-350 opacity-0'}`}
