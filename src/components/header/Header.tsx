@@ -16,9 +16,10 @@ interface HeaderProps {
     longBreakTime: number;
     setLongBreakTime: Dispatch<SetStateAction<number>>;
     handleSaveButton: (pom: number, short: number, long: number) => void;
+    isRedPalette: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBreakTime, setShortBreakTime, longBreakTime, setLongBreakTime, handleSaveButton}) => {    
+const Header: React.FC<HeaderProps> = ({ pomodoroTime, setPomodoroTime, shortBreakTime, setShortBreakTime, longBreakTime, setLongBreakTime, handleSaveButton, isRedPalette }) => {    
 
     const [isConfigOpen, setIsConfigOpen] = useState(false);
     const handleConfig = () => {
@@ -33,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({pomodoroTime, setPomodoroTime, shortBrea
     return (
         <header className={cn(
             "flex items-center justify-between",
-            "text-my-red-950",
+            isRedPalette ? "text-my-red-950" : "text-my-green-950",
         )}>
             <span className="flex cursor-pointer"> {/* TODO: Redirigir a la pagina de inicio */}
                 <GiTomato className="text-2xl mr-1"/>

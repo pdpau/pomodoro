@@ -20,9 +20,11 @@ interface Props {
     /* Filters */
     filterSelected: FilterValue;
     handleFilterChange: (filter: FilterValue) => void;
+    /* Background color */
+    isRedPalette: boolean;
 }
 
-const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete, filterSelected, handleFilterChange }) => {
+const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete, filterSelected, handleFilterChange, isRedPalette }) => {
 
     /* --- Handling user input --- */
     const [userInputText, setUserInputText] = useState('');
@@ -65,7 +67,8 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                         placeholder="Add a task..."
                         className={cn(
                             "mt-0.5 px-2 py-1 h-full w-5/6",
-                            "bg-transparent placeholder-my-red-900 text-my-red-950 text-xl font-medium",
+                            "bg-transparent text-xl font-medium", 
+                            isRedPalette ? "placeholder-my-red-900 text-my-red-950" : "placeholder-my-green-900 text-my-green-950",
                             "focus:outline-none focus:border-none focus:ring-0",
                             "placeholder:translate-y-0.5 placeholder:translate-x-0.5",
                         )} 
@@ -74,17 +77,17 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                 {/* Botó d'afegir task */}
                 <button onClick={addTaskAndCleanInput}
                     className={cn(
-                        "flex items-center justify-center", /* bg-white per fer proves */
+                        "flex items-center justify-center",
                         "w-8 h-8 rounded-md", 
-                        "font-medium text-xl text-my-red-900",
+                        "font-medium text-xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                         "transition duration-300",
-                        "hover:scale-105 hover:text-my-red-950" /* hover:bg-my-red-400 */
+                        "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950"
                 )}>
                     <FaPlus />
                 </button>
             </div>
 
-            <Separator className="bg-my-red-950"/>
+            <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
 
             {/* Tasks list */}
             <div className={cn(
@@ -102,13 +105,14 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                                 completed={task.completed}
                                 handleRemove={handleRemove}
                                 handleComplete={handleComplete}
+                                isRedPalette={isRedPalette}
                             />
                         </li>
                     ))}
                 </ul>
             </div>
 
-            <Separator className="bg-my-red-950"/>
+            <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
 
             {/* Filters section */}
             <div className={cn(
@@ -121,6 +125,7 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                     completedCount={tasks.filter(task => task.completed).length}
                     filterSelected={filterSelected}
                     onFilterChange={handleFilterChange}
+                    isRedPalette={isRedPalette}
                 />
                 <span className="font-medium text-lg px-2">
                     <strong>{tasks.filter(task => !task.completed).length}</strong> tareas pendientes

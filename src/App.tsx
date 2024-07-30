@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { cn } from "@/lib/utils";
 import { Separator } from '@/components/ui/separator'
 
 import Header from './components/header/Header'
@@ -18,9 +19,15 @@ function App() {
     setLongBreakTimerValue(long);
   }
 
+  /* Background color */
+  const [isRedPalette, setIsRedPalette] = useState(true);
+  const togglePalette = () => {
+    setIsRedPalette(!isRedPalette);
+  }
+
   return (
     <>
-      <body className="flex justify-center items-center"> {/* ¿¿Mejor usar div?? */}
+      <body className={cn("flex justify-center items-center", isRedPalette ? "bg-my-red-800" : "bg-my-green-800")}>
         <main className="flex flex-col justify-between w-[912px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
           <div id="header-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
             <Header
@@ -28,23 +35,28 @@ function App() {
               shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
               longBreakTime={longBreakTimerValue} setLongBreakTime={setLongBreakTimerValue}
               handleSaveButton={handleSaveButton}
+              isRedPalette={isRedPalette}
             />
           </div>
 
-          <Separator className="bg-my-red-950"/>
+          <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
 
           <div id="main-section" className="my-2">
             <Pomodoro
-              pomodoroTime={pomodoroTimerValue} /* setPomodoroTime={setPomodoroTimerValue} ES POT BORRAR */
-              shortBreakTime={shortBreakTimerValue} /* setShortBreakTime={setShortBreakTimerValue} */
-              longBreakTime={longBreakTimerValue} /* setLongBreakTime={setLongBreakTimerValue} */
+              pomodoroTime={pomodoroTimerValue}
+              shortBreakTime={shortBreakTimerValue}
+              longBreakTime={longBreakTimerValue}
+              isRedPalette={isRedPalette}
+              togglePalette={togglePalette}
             />
           </div>
 
-          <Separator className="bg-my-red-950"/>
+          <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
 
           <div id="footer-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
-            <Footer />
+            <Footer
+              isRedPalette={isRedPalette}
+            />
           </div>
         </main>
       </body>

@@ -9,9 +9,11 @@ interface Props {
     completedCount: number;
     filterSelected: FilterValue;
     onFilterChange: (filter: FilterValue) => void;
+    /* Background color */
+    isRedPalette: boolean;
 }
 
-const TaskFilters: React.FC<Props> = ({ activeCount, completedCount, filterSelected, onFilterChange }) => {
+const TaskFilters: React.FC<Props> = ({ activeCount, completedCount, filterSelected, onFilterChange, isRedPalette }) => {
     return (
         <ul className={cn(
             "flex items-center justify-between", 
@@ -22,10 +24,10 @@ const TaskFilters: React.FC<Props> = ({ activeCount, completedCount, filterSelec
             {
                 Object.entries(FILTER_BUTTONS).map(([filter, { literal, href }]) => {
                     const isSelected = filter === filterSelected;
-                    const styles = isSelected ? 'text-my-red-950' : 'text-my-red-900';
+                    const styles = isRedPalette ? (isSelected ? 'text-my-red-950' : 'text-my-red-900') : (isSelected ? 'text-my-green-950' : 'text-my-green-900');
 
                     return (
-                        <li key={filter} className="rounded-md border-my-red-950">
+                        <li key={filter} className={cn("rounded-md", isRedPalette ? "border-my-red-950" : "border-my-green-950")}>
                             {/* S'ha d'utilitzar inline-block o block amb els elements <a> a tailwind per poder fer un "hover:scale-105" */}
                             <a 
                                 href={href}
@@ -33,7 +35,7 @@ const TaskFilters: React.FC<Props> = ({ activeCount, completedCount, filterSelec
                                     "bg-transparent",
                                     "font-medium text-lg",
                                     "transition duration-300 inline-block",
-                                    "hover:scale-105 hover:text-my-red-950",
+                                    "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950",
                                     styles
                                 )}
                                 onClick={(event) => {

@@ -18,21 +18,17 @@ interface TimerProps {
     pomodoroTime: number;
     shortBreakTime: number;
     longBreakTime: number;
+    /* Background color */
+    isRedPalette: boolean;
+    togglePalette: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
+const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTime, isRedPalette, togglePalette }) => {
+    const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+
     const [temporalPomodoroTime, setTemporalPomodoroTime] = useState<number>(pomodoroTime);
     const [temporalShortBreakTime, setTemporalShortBreakTime] = useState<number>(shortBreakTime);
     const [temporalLongBreakTime, setTemporalLongBreakTime] = useState<number>(longBreakTime);
-    const handleReset = (fromResetButton: boolean) => {
-        setTemporalPomodoroTime(pomodoroTime);
-        setTemporalShortBreakTime(shortBreakTime);
-        setTemporalLongBreakTime(longBreakTime);
-        if (fromResetButton) {
-            setMode('work'); /* Returns to the pomodoro start */
-            formatTime(temporalPomodoroTime, setDisplay);
-        }
-    }
 
 
     const [mode, setMode] = useState<ModeType>('work');
@@ -49,13 +45,19 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                 setTemporalPomodoroTime(temporalPomodoroTime => temporalPomodoroTime - (1/60));
                 if (temporalPomodoroTime <= (1/60)) {
                     setMode('rest');
-                    handleReset(false);
+                    /* handleReset(false); */
+                    setTemporalPomodoroTime(pomodoroTime);
+                    setTemporalShortBreakTime(shortBreakTime);
+                    setTemporalLongBreakTime(longBreakTime);
                 }
             } else if (mode === 'rest') {
                 setTemporalShortBreakTime(temporalShortBreakTime => temporalShortBreakTime - (1/60));
                 if (temporalShortBreakTime <= (1/60)) {
                     setMode('work');
-                    handleReset(false);
+                    /* handleReset(false); */
+                    setTemporalPomodoroTime(pomodoroTime);
+                    setTemporalShortBreakTime(shortBreakTime);
+                    setTemporalLongBreakTime(longBreakTime);
                 }
             }
         }, 1000);
@@ -75,12 +77,30 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
     }, [temporalShortBreakTime]);
     /* ---------- End of time display ---------- */
 
-    /* ---------- Handle WORK and BREAK buttons ---------- */
+    /* ---------- Handle DONE button ---------- */
     const handleMode = (newMode: ModeType) => {
-        setMode(newMode); /* TODO: Segueix el mateix problema al canviar de modes */
-        handleReset(false);
+        /* Change mode */
+        setMode(newMode);
+        /* Reset values for the timers */
+        setTemporalPomodoroTime(pomodoroTime);
+        setTemporalShortBreakTime(shortBreakTime);
+        setTemporalLongBreakTime(longBreakTime);
+        /* Change palette (red or green) */
+        togglePalette();
     }
-    /* ---------- End of handle WORK and BREAK buttons ---------- */
+    const handleDoneButton = () => {
+        /* Add one to the pomodoros complete counter */
+        if (mode === 'work') {
+            setCompletedPomodoros(completedPomodoros + 1);
+        }
+        /* Jump to next mode */
+        if (mode === 'work') {
+            handleMode('rest');
+        } else if (mode === 'rest') {
+            handleMode('work');
+        }
+    }
+    /* ---------- End of handle DONE button ---------- */
 
 
     return (
@@ -95,26 +115,32 @@ const Timer: React.FC<TimerProps> = ({pomodoroTime, shortBreakTime, longBreakTim
                 {isPlaying ? (
                     <div className="mb-4">
                         <button className={cn("w-24 h-12 rounded-sm", 
-                            "font-medium text-2xl text-my-red-900",
+                            "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                             "transition duration-300",
-                            "hover:scale-105 hover:text-my-red-950")}
+                            "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950")}
                             onClick={handleIsPlaying}
                         >Stop</button>
+                        <button className={cn("w-24 h-12 rounded-sm", 
+                            "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
+                            "transition duration-300",
+                            "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950")}
+                            onClick={handleDoneButton}
+                        >Done</button>
                     </div>
                 ) : (
                     <div className="space-x-4 mb-4">
                         <button className={cn("w-24 h-12 rounded-sm", 
-                            "font-medium text-2xl text-my-red-900",
+                            "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                             "transition duration-300",
-                            "hover:scale-105 hover:text-my-red-950")}
+                            "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950")}
                             onClick={handleIsPlaying}
                         >Start</button>
                         <button className={cn("w-24 h-12 rounded-sm", 
-                            "font-medium text-2xl text-my-red-900",
+                            "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                             "transition duration-300",
-                            "hover:scale-105 hover:text-my-red-950")}
-                            onClick={() => handleReset(true)}
-                        >Reset</button>
+                            "hover:scale-105", isRedPalette ? "hover:text-my-red-950" : "hover:text-my-green-950")}
+                            onClick={handleDoneButton}
+                        >Done</button>
                     </div>
                 )}
             </div>

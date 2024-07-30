@@ -22,9 +22,11 @@ interface Props {
     pomodoroTime: number;
     shortBreakTime: number;
     longBreakTime: number;
+    isRedPalette: boolean;
+    togglePalette: () => void;
 }
 
-const Pomodoro: React.FC<Props> = ({pomodoroTime, shortBreakTime, longBreakTime}) => {
+const Pomodoro: React.FC<Props> = ({ pomodoroTime, shortBreakTime, longBreakTime, isRedPalette, togglePalette }) => {
 
     /* --- Add and remove tasks functions --- */
     const [tasks, setTasks] = useState(mockTasks);
@@ -69,13 +71,15 @@ const Pomodoro: React.FC<Props> = ({pomodoroTime, shortBreakTime, longBreakTime}
 
 
     return (
-        <section className={cn("flex flex-col justify-center", "w-full h-full", "text-my-red-950")}>
+        <section className={cn("flex flex-col justify-center", "w-full h-full", isRedPalette ? "text-my-red-950" : "text-my-green-950")}>
             <div className={cn("gap-x-4 mb-2", "flex items-center justify-center")}>
                 {/* Timer */}
                 <Timer
                     pomodoroTime={pomodoroTime}
                     shortBreakTime={shortBreakTime}
                     longBreakTime={longBreakTime}
+                    isRedPalette={isRedPalette}
+                    togglePalette={togglePalette}
                 />
                 {/* Tasks */}
                 <Tasks
@@ -85,11 +89,14 @@ const Pomodoro: React.FC<Props> = ({pomodoroTime, shortBreakTime, longBreakTime}
                     handleComplete={handleCompleteTask}
                     filterSelected={filterSelected}
                     handleFilterChange={handleFilterChange}
+                    isRedPalette={isRedPalette}
                 />
             </div>
             <div className={cn("gap-x-4 mt-2", "flex items-center justify-center")}>
                 {/* EXTRA SECTION (¿textarea for notes?) */}
-                <Notebook />
+                <Notebook
+                    isRedPalette={isRedPalette}
+                />
             </div>
         </section>
     )
