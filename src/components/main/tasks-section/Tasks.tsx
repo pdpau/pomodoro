@@ -128,7 +128,7 @@ const Tasks: React.FC<Props> = ({ tasks, handleAdd, handleRemove, handleComplete
                     isRedPalette={isRedPalette}
                 />
                 <span className="font-medium text-lg px-2">
-                    <strong>{tasks.filter(task => !task.completed).length}</strong> tareas pendientes
+                    <strong>{tasks.filter(task => !task.completed).length}</strong> pending tasks
                 </span>
             </div>
         </div>
