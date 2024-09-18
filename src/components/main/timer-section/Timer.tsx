@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { ModeType } from '@/types';
@@ -19,13 +19,16 @@ interface TimerProps {
     pomodoroTime: number;
     shortBreakTime: number;
     longBreakTime: number;
+    /* Completed pomodoros */
+    completedPomodoros: number;
+    setCompletedPomodoros: Dispatch<SetStateAction<number>>;
+
     /* Background color */
     isRedPalette: boolean;
     togglePalette: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTime, isRedPalette, togglePalette }) => {
-    const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTime, completedPomodoros, setCompletedPomodoros, isRedPalette, togglePalette }) => {
 
     const [temporalPomodoroTime, setTemporalPomodoroTime] = useState<number>(pomodoroTime);
     const [temporalShortBreakTime, setTemporalShortBreakTime] = useState<number>(shortBreakTime);
@@ -112,7 +115,7 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
 
             {/* <span className="text-lg font-bold">Completed pomodoros (change this): {completedPomodoros}</span> */}
 
-            {/* TODO: Pujar els botons o baixar els numeros timer (els quadrats centrals estan bé) */}
+            {/* TODO: Quadrats centrals queden una mica desplaçats */}
             <span className="flex justify-center w-80 h-28 text-9xl font-bold">{display}</span>
             {/* <span className="absolute top-1/5 text-9xl font-bold leading-none">{display}</span> */}
 

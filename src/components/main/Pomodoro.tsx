@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -19,14 +19,19 @@ const mockTasks = [
 
 
 interface Props {
+    /* Timer */
     pomodoroTime: number;
     shortBreakTime: number;
     longBreakTime: number;
+    /* Completed pomodoros */
+    completedPomodoros: number;
+    setCompletedPomodoros: Dispatch<SetStateAction<number>>;
+
     isRedPalette: boolean;
     togglePalette: () => void;
 }
 
-const Pomodoro: React.FC<Props> = ({ pomodoroTime, shortBreakTime, longBreakTime, isRedPalette, togglePalette }) => {
+const Pomodoro: React.FC<Props> = ({ pomodoroTime, shortBreakTime, longBreakTime, completedPomodoros, setCompletedPomodoros, isRedPalette, togglePalette }) => {
 
     /* --- Add and remove tasks functions --- */
     const [tasks, setTasks] = useState(mockTasks);
@@ -78,6 +83,7 @@ const Pomodoro: React.FC<Props> = ({ pomodoroTime, shortBreakTime, longBreakTime
                     pomodoroTime={pomodoroTime}
                     shortBreakTime={shortBreakTime}
                     longBreakTime={longBreakTime}
+                    completedPomodoros={completedPomodoros} setCompletedPomodoros={setCompletedPomodoros}
                     isRedPalette={isRedPalette}
                     togglePalette={togglePalette}
                 />

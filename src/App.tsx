@@ -18,6 +18,7 @@ function App() {
     setShortBreakTimerValue(short);
     setLongBreakTimerValue(long);
   }
+  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   /* Background color */
   const [isRedPalette, setIsRedPalette] = useState(true);
@@ -35,6 +36,7 @@ function App() {
               pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
               shortBreakTime={shortBreakTimerValue} setShortBreakTime={setShortBreakTimerValue}
               longBreakTime={longBreakTimerValue} setLongBreakTime={setLongBreakTimerValue}
+              completedPomodoros={completedPomodoros}
               handleSaveButton={handleSaveButton}
               isRedPalette={isRedPalette}
             />
@@ -48,6 +50,7 @@ function App() {
               pomodoroTime={pomodoroTimerValue}
               shortBreakTime={shortBreakTimerValue}
               longBreakTime={longBreakTimerValue}
+              completedPomodoros={completedPomodoros} setCompletedPomodoros={setCompletedPomodoros}
               isRedPalette={isRedPalette}
               togglePalette={togglePalette}
             />
