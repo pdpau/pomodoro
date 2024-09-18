@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ pomodoroTime, setPomodoroTime, shortBre
             {/* Completed pomodoros */}
             <span className="flex items-center justify-center">
                 {/* TODO: Revisar els estils i si això realment ha de colocar-se aqui */}
-                <p className="text-xl font-bold mt-1 mr-4">Completed pomodoros: {completedPomodoros}</p>
+                <p className="text-xl font-medium mt-[6px] mr-4">You have completed <strong>{completedPomodoros}</strong> pomodoros today</p>
             </span>
 
             {/* Stats and Settings */}
