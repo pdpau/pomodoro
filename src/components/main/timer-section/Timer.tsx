@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import { cn } from '@/lib/utils';
 import { ModeType } from '@/types';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-const formatTime = (minutesInput: number, setDisplay: Dispatch<SetStateAction<string>>) => {
+const formatTime = (minutesInput: number): string => {
     const totalSeconds = Math.floor(minutesInput * 60);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
@@ -10,7 +11,7 @@ const formatTime = (minutesInput: number, setDisplay: Dispatch<SetStateAction<st
     const strMinutes = minutes.toString().padStart(2, '0');
     const strSeconds = seconds.toString().padStart(2, '0');
 
-    setDisplay(`${strMinutes}:${strSeconds}`);
+    return `${strMinutes}:${strSeconds}`;
 }
 
 interface TimerProps {
@@ -32,6 +33,22 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
 
 
     const [mode, setMode] = useState<ModeType>('work');
+    const handleMode = (newMode: ModeType) => {
+        /* Change mode */
+        setMode(newMode);
+        /* Reset values for the timers */
+        setTemporalPomodoroTime(pomodoroTime);
+        setTemporalShortBreakTime(shortBreakTime);
+        setTemporalLongBreakTime(longBreakTime);
+        /* Update display immediately */
+        if (newMode === 'work') {
+            setDisplay(formatTime(temporalPomodoroTime));
+        } else if (newMode === 'rest') {
+            setDisplay(formatTime(temporalShortBreakTime));
+        }
+        /* Change palette (red or green) */
+        togglePalette();
+    }
 
     /* ---------- Playing or not playing time ---------- */
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -44,20 +61,12 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
             if (mode === 'work') {
                 setTemporalPomodoroTime(temporalPomodoroTime => temporalPomodoroTime - (1/60));
                 if (temporalPomodoroTime <= (1/60)) {
-                    setMode('rest');
-                    /* handleReset(false); */
-                    setTemporalPomodoroTime(pomodoroTime);
-                    setTemporalShortBreakTime(shortBreakTime);
-                    setTemporalLongBreakTime(longBreakTime);
+                    handleMode('rest');
                 }
             } else if (mode === 'rest') {
                 setTemporalShortBreakTime(temporalShortBreakTime => temporalShortBreakTime - (1/60));
                 if (temporalShortBreakTime <= (1/60)) {
-                    setMode('work');
-                    /* handleReset(false); */
-                    setTemporalPomodoroTime(pomodoroTime);
-                    setTemporalShortBreakTime(shortBreakTime);
-                    setTemporalLongBreakTime(longBreakTime);
+                    handleMode('work');
                 }
             }
         }, 1000);
@@ -69,25 +78,15 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
     const [display, setDisplay] = useState<string>('00:00');
     useEffect(() => {
         if (mode !== 'work') return;
-        formatTime(temporalPomodoroTime, setDisplay); /* TODO: Falta que quan li doni a SAVE es mostri els nous minuts al timer */
+        setDisplay(formatTime(temporalPomodoroTime));
     }, [temporalPomodoroTime]);
     useEffect(() => {
         if (mode !== 'rest') return;
-        formatTime(temporalShortBreakTime, setDisplay);
+        setDisplay(formatTime(temporalShortBreakTime));
     }, [temporalShortBreakTime]);
     /* ---------- End of time display ---------- */
 
     /* ---------- Handle DONE button ---------- */
-    const handleMode = (newMode: ModeType) => {
-        /* Change mode */
-        setMode(newMode);
-        /* Reset values for the timers */
-        setTemporalPomodoroTime(pomodoroTime);
-        setTemporalShortBreakTime(shortBreakTime);
-        setTemporalLongBreakTime(longBreakTime);
-        /* Change palette (red or green) */
-        togglePalette();
-    }
     const handleDoneButton = () => {
         /* Add one to the pomodoros complete counter */
         if (mode === 'work') {
@@ -109,11 +108,18 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
             "flex flex-col items-center justify-evenly rounded-lg", 
             "bg-white bg-opacity-10"
         )}>
-            <span className="text-4xl font-bold mt-4 pb-4">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
-            <span className="flex justify-center w-80 text-9xl font-bold">{display}</span> {/* TODO: Que quan baixi els numeros es quedin quiets */}
-            <div id="start-stop-buttons" className="flex gap-2">
+            <span className="text-4xl font-bold mt-3">{mode === 'work' ? 'Working' : 'Break time !!'}</span>
+
+            {/* <span className="text-lg font-bold">Completed pomodoros (change this): {completedPomodoros}</span> */}
+
+            {/* TODO: Pujar els botons o baixar els numeros timer (els quadrats centrals estan bé) */}
+            <span className="flex justify-center w-80 h-28 text-9xl font-bold">{display}</span>
+            {/* <span className="absolute top-1/5 text-9xl font-bold leading-none">{display}</span> */}
+
+            <div id="start-stop-buttons" className="gap-x-2">
+                {/* TODO: El codi seguent segur que es optimitzable */}
                 {isPlaying ? (
-                    <div className="mb-4">
+                    <div className="space-x-4">
                         <button className={cn("w-24 h-12 rounded-sm", 
                             "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                             "transition duration-300",
@@ -128,7 +134,7 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
                         >Done</button>
                     </div>
                 ) : (
-                    <div className="space-x-4 mb-4">
+                    <div className="space-x-4">
                         <button className={cn("w-24 h-12 rounded-sm", 
                             "font-medium text-2xl", isRedPalette ? "text-my-red-900" : "text-my-green-900",
                             "transition duration-300",
@@ -144,6 +150,7 @@ const Timer: React.FC<TimerProps> = ({ pomodoroTime, shortBreakTime, longBreakTi
                     </div>
                 )}
             </div>
+
         </div>
     )
 }
