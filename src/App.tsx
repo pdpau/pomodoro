@@ -29,6 +29,7 @@ function App() {
     <>
       <body className={cn("flex justify-center items-center", isRedPalette ? "bg-my-red-800" : "bg-my-green-800")}>
         <main className="flex flex-col justify-between w-[912px] h-screen"> {/* Header i footer fixes + secció central ajustable a la mida de la pantalla */}
+          {/* HEADER SECTION */}
           <div id="header-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
             <Header
               pomodoroTime={pomodoroTimerValue} setPomodoroTime={setPomodoroTimerValue}
@@ -39,9 +40,10 @@ function App() {
             />
           </div>
 
-          <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
+          <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950", "")}/>
 
-          <div id="main-section" className="my-2">
+          {/* MAIN SECTION */}
+          <div id="main-section" className="flex-grow my-2">
             <Pomodoro
               pomodoroTime={pomodoroTimerValue}
               shortBreakTime={shortBreakTimerValue}
@@ -53,6 +55,7 @@ function App() {
 
           <Separator className={cn(isRedPalette ? "bg-my-red-950" : "bg-my-green-950")}/>
 
+          {/* FOOTER SECTION */}
           <div id="footer-section" className="min-h-10 max-h-10 my-1 mx-1 flex flex-col justify-center">
             <Footer
               isRedPalette={isRedPalette}
